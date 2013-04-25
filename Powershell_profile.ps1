@@ -77,8 +77,3 @@ function Backup-Git
 	Copy-Item (Join-Path -path $repo -childpath .gitignore) (Join-Path -path $backupDrive -childpath .gitignore)
 	Write-Host "Backup completed"
 }
-
-function Size($w, $h)
-{
-    New-Object System.Management.Automation.Host.Size($w, $h)
-}
