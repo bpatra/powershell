@@ -28,7 +28,7 @@ while($currentIp -eq $initialIp){
         if($isSecondChance){
 			break
 		}
-		[System.Threading.Thread]::Sleep([timespan]'0:0:35')
+		[System.Threading.Thread]::Sleep($timeOut)
         $isSecondChance = $TRUE
 		continue
     }
