@@ -1,41 +1,4 @@
 
-$aliasesPath = Join-Path -Path ([System.IO.Path]::GetDirectoryName($PROFILE)) -ChildPath "alias.txt"
- 
-function Export-AliasWithEXEInPATH
-{
-    $aliasDict = @{}
-    $existingAlias = Get-Alias | ForEach-Object {$_.Name}
-    foreach($aliasName in $existingAlias)
-    {
-        $aliasDict.Add($aliasName,"")
-    }
-    $pathDirectories = $env:PATH.Split(';') | Where-Object {($_ -ne "") -and (Test-Path $_ )}
-    foreach($pathDir in $pathDirectories)
-    {
-        $result = Get-ChildItem (Join-Path $pathDir "*") -Include *.exe | 
-            ForEach-Object {
-                                Write-Host "Checking" $_.BaseName "for aliasing"
-                                If(-Not $aliasDict.ContainsKey($_.BaseName))
-                                {
-                                    $alias = $_.BaseName.ToString()
-                                    $for = $_.Name
-                                    Set-Alias -Name $alias -Value $for -Verbose -Scope "Global"
-                                }
-                            }             
-    }
-    Export-Alias $aliasesPath
-}
- 
-if(-Not (Test-Path $aliasesPath))
-{
-    Write-Error "Cannot find alias.txt execute function Export-AliasWithEXEInPATH"
-}
-else
-{
-    Import-Alias $aliasesPath -Force
-}
-
-
 function GitLog
 {
      git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n'' %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
@@ -89,14 +52,6 @@ function Import-VS2013Vars
 }
 
 
-#Import-Module PSReadline
-
-<############### Start of PowerTab Initialization Code ########################
-    Added to profile by PowerTab setup for loading of custom tab expansion.
-    Import other modules after this, they may contain PowerTab integration.
-#>
-
-#Import-Module "PowerTab" -ArgumentList "C:\Users\Benoit\Documents\WindowsPowerShell\PowerTabConfig.xml"
-################ End of PowerTab Initialization Code ##########################
+Import-Module PSReadline
 
 
